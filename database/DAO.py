@@ -53,7 +53,7 @@ and t.GenreId = g.GenreId and g.Name = %s """
                 where a.ArtistId = a2.ArtistId and a2.AlbumId = t.AlbumId 
                 and t.GenreId = g.GenreId and g.Name = %s and 
                 i.TrackId = t.TrackId
-                group by a.ArtistId  """
+                group by a.ArtistId """
 
         cursor.execute(query, (genre,))
 
