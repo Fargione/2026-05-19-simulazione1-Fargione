@@ -49,28 +49,21 @@ class Model:
         self._grafo.clear_edges()
 
         lista = self.getAllEdges(genre)
-        clienti = {}
+        for e,f in lista:
+            u = self._idMapArtist[e]
+            v = self._idMapArtist[f]
+            p1 = self._popD[e]
+            p2 = self._popD[f]
+            peso = p1 + p2
+            if p1 > p2:
+                self._grafo.add_edge(u, v, weight=peso)
+            elif p2 > p1:
+                self._grafo.add_edge(v, u, weight=peso)
+            else:
+                self._grafo.add_edge(u, v, weight=peso)
+                self._grafo.add_edge(v, u, weight=peso)
 
-        for customerId, artistId in lista:
-            if customerId not in clienti:
-                clienti[customerId] = set()
-            clienti[customerId].add(artistId)
 
-        for artisti in clienti.values():
-            for a1, a2 in combinations(artisti, 2):
-                u = self._idMapArtist[a1]
-                v = self._idMapArtist[a2]
-                p1 = self._popD[a1]
-                p2 = self._popD[a2]
-                peso = p1 + p2
-
-                if p1 > p2:
-                    self._grafo.add_edge(u, v, weight=peso)
-                elif p2 > p1:
-                    self._grafo.add_edge(v, u, weight=peso)
-                else:
-                    self._grafo.add_edge(u, v, weight=peso)
-                    self._grafo.add_edge(v, u, weight=peso)
 
     def bestInfluenza(self):
         bestNodo = None
